@@ -7,6 +7,7 @@ import Category from "./components/pages/backend/category/Category";
 import LogIn from "./components/pages/backend/access/Login";
 import ForgotPassword from "./components/pages/backend/access/ForgotPassword";
 import SetPassword from "./components/pages/backend/access/SetPassword";
+import ProductInfo from "./components/pages/frontend/product-info/ProductInfo";
 
 
 const App = () => {
@@ -22,6 +23,9 @@ const App = () => {
         <Route path="/admin/login" element={<LogIn/>} />
         <Route path="/admin/forgot-password" element={<ForgotPassword/>} />
         <Route path="/admin/set-password" element={<SetPassword/>} />
+
+
+        <Route path="/product/:slug" element={<ProductInfo/>} />
      </Routes>
     </Router>
     </StoreProvider>

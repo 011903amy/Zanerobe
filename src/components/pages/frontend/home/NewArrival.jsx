@@ -3,42 +3,12 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import CardItem from "./CardItem";
+import { newArrivalArray } from "./new-arrival-data";
 
 const NewArrival = () => {
   const [isHover, setIsHover] = React.useState(false);
 
-  const newArrivalArray = [
-    {
-      img1: "na-card-a1.jpg",
-      img2: "na-card-a2.jpg",
-      title: "lorem ipsum dolo sit amet",
-      price: "1499.99",
-    },
-    {
-      img1: "na-card-a2.jpg",
-      img2: "na-card-a1.jpg",
-      title: "lorem ipsum dolo sit amet",
-      price: "1489.99",
-    },
-    {
-      img1: "na-card-a1.jpg",
-      img2: "na-card-a2.jpg",
-      title: "lorem ipsum dolo sit amet",
-      price: "1699.99",
-    },
-    {
-      img1: "na-card-a2.jpg",
-      img2: "na-card-a1.jpg",
-      title: "lorem ipsum dolo sit amet",
-      price: "2499.99",
-    },
-    {
-      img1: "na-card-a1.jpg",
-      img2: "na-card-a2.jpg",
-      title: "lorem ipsum dolo sit amet",
-      price: "499.99",
-    },
-  ];
+  
 
   var settings = {
     dots: true,

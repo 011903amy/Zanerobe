@@ -1,9 +1,12 @@
 import { imgPath } from "@/components/helpers/Functions-General";
 import React from "react";
+import { Link } from "react-router-dom";
 
 
 const CardItem = ({ item, key }) => {
+  const title = item.title;
   return (
+    <Link to={`/product/${title.toLowerCase().replaceAll(" ","-")}`}>
     <div
       className="new-arrival-card px-4"
       key={key}
@@ -47,6 +50,8 @@ const CardItem = ({ item, key }) => {
         </ul>
       </div>
     </div>
+    </Link>
+    
   );
 };
 
