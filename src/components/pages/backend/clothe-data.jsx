@@ -1,0 +1,48 @@
+export const clothes= [
+  {
+      clothe_aid: 1,
+      clothe_img:"na-card-a1.jpg",
+      clothe_title:"White Shirt",
+      clothe_price:"1499.99",
+      clothe_category:"Shirts",
+      clothe_size:"XL, L, M, S, XS",
+      clothe_is_active:true,
+  },
+  {
+    clothe_aid: 2,
+    clothe_img:"na-card-a2.jpg",
+    clothe_title:"Black Shirt",
+    clothe_price:"1499.99",
+    clothe_category:"Tees",
+    clothe_size:"XL, L, M, S, XS",
+    clothe_is_active:true,
+},
+  {
+      clothe_aid: 3,
+      clothe_img:"na-card-a3.jpg",
+      clothe_title:"Black Jacket",
+      clothe_price:"1499.99",
+      clothe_category:"Jacket",
+      clothe_size:"XL, L, M, S, XS",
+      clothe_is_active:true,
+  },
+  {
+      clothe_aid: 4,
+      clothe_img:"na-card-a4.jpg",
+      clothe_title:"White Sweater",
+      clothe_price:"1499.99",
+      clothe_category:"Sweater",
+      clothe_size:"XL, L, M, S, XS",
+      clothe_is_active:true,
+  },
+  {
+      clothe_aid: 5,
+      clothe_img:"na-card-a5.jpg",
+      clothe_title:"White Tees",
+      clothe_price:"1499.99",
+      clothe_category:"Tees",
+      clothe_size:"XL, L, M, S, XS",
+      clothe_is_active:true,
+  },
+
+]
