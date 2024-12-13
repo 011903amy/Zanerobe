@@ -1,8 +1,8 @@
 import { Archive, Frown, Info, Trash2, X } from "lucide-react";
 import React from "react";
 import ModalWrapper from "./ModalWrapper";
-import { StoreContext } from "@/componets/store/StoreContext";
-import { setError } from "@/componets/store/StoreAction";
+import { StoreContext } from "@/components/store/StoreContext";
+import { setError } from "@/components/store/StoreAction";
 
 const ModalError = () => {
   const { store, dispatch } = React.useContext(StoreContext);

@@ -1,13 +1,16 @@
-import { StoreContext } from '@/components/store/StoreContext'
-import Header from '../partials/Header'
-import SideNavigation from '../partials/SideNavigation'
-import { Plus } from 'lucide-react'
-import Footer from '../partials/Footer'
 import { setIsAdd } from '@/components/store/StoreAction'
-import SearchBar from '../partials/SearchBar'
+import { StoreContext } from '@/components/store/StoreContext'
+import { Plus } from 'lucide-react'
 import React from 'react'
-import ModalAddClothes from '../clothe/ModalAddClothes'
+import Footer from '../partials/Footer'
+import Header from '../partials/Header'
+
+import SearchBar from '../partials/SearchBar'
+import SideNavigation from '../partials/SideNavigation'
 import CategoryTable from './CategoryTable'
+
+import ModalValidation from '../partials/modals/ModalValidation'
+import ModalError from '../partials/modals/ModalError'
 import ModalAddCategory from './ModalAddCategory'
 
 
@@ -15,6 +18,7 @@ import ModalAddCategory from './ModalAddCategory'
 const Category = () => {
   const { dispatch, store } = React.useContext(StoreContext);
   const [itemEdit, setItemEdit] = React.useState(null);
+  
   const handleAdd = () => {
     dispatch(setIsAdd(true));
     setItemEdit(null)
@@ -35,7 +39,7 @@ const Category = () => {
                 </button>
               </div>
 
-              <CategoryTable/>
+              <CategoryTable setItemEdit={setItemEdit}/>
             </div>
 
             <Footer />
@@ -43,9 +47,9 @@ const Category = () => {
         </div>
       </section>
       {store.isAdd && <ModalAddCategory itemEdit={itemEdit} />}
-      {/* {store.isValidate && <ModalValidation />}
+      {store.isValidate && <ModalValidation />}
       {store.error && <ModalError />}
-      {store.isSuccess && <ToastSuccess />} */}
+      {store.isSuccess && <ToastSuccess />}
     </>
   )
 }

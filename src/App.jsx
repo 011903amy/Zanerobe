@@ -8,10 +8,13 @@ import LogIn from "./components/pages/backend/access/Login";
 import ForgotPassword from "./components/pages/backend/access/ForgotPassword";
 import SetPassword from "./components/pages/backend/access/SetPassword";
 import ProductInfo from "./components/pages/frontend/product-info/ProductInfo";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
 const App = () => {
+  const queryClient = new QueryClient();
   return (
+    <QueryClientProvider client={queryClient}>
     <StoreProvider>
       <Router>
       <Routes>
@@ -29,6 +32,7 @@ const App = () => {
      </Routes>
     </Router>
     </StoreProvider>
+    </QueryClientProvider>
     
   );
 };

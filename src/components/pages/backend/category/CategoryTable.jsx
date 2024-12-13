@@ -1,28 +1,49 @@
-import Pills from "../partials/Pills";
-import LoadMore from "../partials/LoadMore";
-import ModalDelete from "../partials/modals/ModalDelete";
-import ModalConfirm from "../partials/modals/ModalConfirm";
-import React from "react";
 import { Archive, ArchiveRestore, FilePenLine, Trash2 } from "lucide-react";
+import React from "react";
+import LoadMore from "../partials/LoadMore";
 
+import Pills from "../partials/Pills";
+
+import useQueryData from "@/components/custom-hook/useQueryData";
 import { setIsAdd, setIsConfirm, setIsDelete } from "@/components/store/StoreAction";
 import { StoreContext } from "@/components/store/StoreContext";
-import { clothes } from "../clothe-data";
+import IconNoData from "../partials/IconNoData";
+import IconServerError from "../partials/IconServerError";
+import SpinnerTable from "../partials/spinners/SpinnerTable";
+import TableLoader from "../partials/TableLoader";
+import ModalDelete from "../partials/modals/ModalDelete";
+import ModalConfirm from "../partials/modals/ModalConfirm";
 
 
 const CategoryTable = ({setItemEdit}) => {
   const { store, dispatch } = React.useContext(StoreContext);
-  let counter = 1;
-  
+  const [isActive, setIsActive] = React.useState(0)
+  const [id, setId] = React.useState(null)
+  const {
+    isLoading,
+    isFetching,
+    error,
+    data: result,
+  } = useQueryData(
+    `/v2/category`, // endpoint
+    "get", // method
+    "category"
+  );
 
-  const handleDelete = () => {
+  let counter = 1;
+  const handleDelete = (item) => {
     dispatch(setIsDelete(true));
+    setId(item.category_aid)
   };
-  const handleRestore = () => {
+  const handleRestore = (item) => {
     dispatch(setIsConfirm(true));
+    setIsActive(1)
+    setId(item.category_aid)
   };
-  const handleArchive = () => {
+  const handleArchive = (item) => {
     dispatch(setIsConfirm(true));
+    setIsActive(0)
+    setId(item.category_aid)
   };
  
   const handleEdit = (item) => {
@@ -36,9 +57,8 @@ const CategoryTable = ({setItemEdit}) => {
     <div>
       {" "}
       <div className="relative p-4 bg-secondary rounded-md mt-10 border border-line">
-        {/* <SpinnerTable /> */}
+        {!isLoading || (isFetching && <SpinnerTable />)}
         <div className="table-wrapper custom-scroll">
-          {/* <TableLoader count={20} cols={4}/> */}
           <table>
             <thead>
               <tr>
@@ -52,28 +72,37 @@ const CategoryTable = ({setItemEdit}) => {
               </tr>
             </thead>
             <tbody>
-              {/* <tr>
-            <td colSpan={100}>
-              <IconNoData/>
-            </td>
-          </tr> */}
-              {/* <tr>
-            <td colSpan={100}>
-              <IconServerError/>
-            </td>
-          </tr> */}
+            {((isLoading && !isFetching) || result?.data.length === 0) && (
+                <tr>
+                  <td colSpan="100%">
+                    {isLoading ? (
+                      <TableLoader count={30} cols={6} />
+                    ) : (
+                      <IconNoData />
+                    )}
+                  </td>
+                </tr>
+              )}
+              {error && (
+                <tr>
+                  <td colSpan="100%">
+                    <IconServerError />
+                  </td>
+                </tr>
+              )}
 
-         {clothes.map((item,key) => (
+                {result?.data.map((item, key) => {
+                
+                return (
                 <tr key={key}>
                   <td>{counter++}.</td>
                   <td>
-                    <Pills />
+                    <Pills isActive={item.category_is_active} />
                   </td>
-                  <td>{item.clothe_title}</td>
-                  
+                  <td>{item.category_title}</td>
                   <td>
                     <ul className="table-action">
-                      {true ? (
+                      {item.category_is_active ? (
                         <>
                           <li>
                             <button
@@ -88,7 +117,7 @@ const CategoryTable = ({setItemEdit}) => {
                             <button
                               className="tooltip"
                               data-tooltip="Archive"
-                              onClick={() => handleArchive()}
+                              onClick={() => handleArchive(item)}
                             >
                               <Archive />
                             </button>
@@ -100,7 +129,7 @@ const CategoryTable = ({setItemEdit}) => {
                             <button
                               className="tooltip"
                               data-tooltip="Restore"
-                              onClick={() => handleRestore()}
+                              onClick={() => handleRestore(item)}
                             >
                               <ArchiveRestore />
                             </button>
@@ -109,7 +138,7 @@ const CategoryTable = ({setItemEdit}) => {
                             <button
                               className="tooltip"
                               data-tooltip="Delete"
-                              onClick={() => handleDelete()}
+                              onClick={() => handleDelete(item)}
                             >
                               <Trash2 />
                             </button>
@@ -119,16 +148,27 @@ const CategoryTable = ({setItemEdit}) => {
                     </ul>
                   </td>
                 </tr>
-        ))}
+                  );
+                })}
             </tbody>
           </table>
 
           <LoadMore />
         </div>
       </div>
-      {store.isDelete && <ModalDelete />}
-      {store.isConfirm && <ModalConfirm />}
-     
+      {store.isDelete && (
+        <ModalDelete
+          mysqlApiDelete={`/v2/category/${id}`}
+          queryKey="category"
+        />
+      )}
+      {store.isConfirm && (
+        <ModalConfirm
+          queryKey="category"
+          mysqlApiArchive={`/v2/category/active/${id}`}
+          active={isActive}
+        />
+      )}
       
     </div>
   );

@@ -1,4 +1,4 @@
-import { StoreContext } from "@/componets/store/StoreContext";
+import { StoreContext } from "@/components/store/StoreContext";
 import { CheckCircle } from "lucide-react";
 import React from "react";
 

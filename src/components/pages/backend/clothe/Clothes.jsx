@@ -8,6 +8,9 @@ import { StoreContext } from '@/components/store/StoreContext'
 import { setIsAdd } from '@/components/store/StoreAction'
 import ClotheTable from './ClotheTable'
 import ModalAddClothes from './ModalAddClothes'
+import ModalValidation from '../partials/modals/ModalValidation'
+import ModalError from '../partials/modals/ModalError'
+import ToastSuccess from '../partials/ToastSuccess'
 
 
 const Clothes = () => {
@@ -41,9 +44,9 @@ const Clothes = () => {
         </div>
       </section>
       {store.isAdd && <ModalAddClothes itemEdit={itemEdit} />}
-      {/* {store.isValidate && <ModalValidation />}
+      {store.isValidate && <ModalValidation />}
       {store.error && <ModalError />}
-      {store.isSuccess && <ToastSuccess />} */}
+      {store.isSuccess && <ToastSuccess />}
     </>
   )
 }

@@ -1,14 +1,43 @@
-
-
+import { Trash2, X } from "lucide-react";
+import React from "react";
 import ModalWrapper from "./ModalWrapper";
 import SpinnerButton from "../spinners/SpinnerButton";
-import React from "react";
-import { Trash2, X } from "lucide-react";
+import { setIsAdd, setIsDelete, setMessage, setSuccess, setValidate } from "@/components/store/StoreAction";
 import { StoreContext } from "@/components/store/StoreContext";
-import { setIsDelete } from "@/components/store/StoreAction";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { queryData } from "@/components/helpers/queryData";
 
-const ModalDelete = () => {
+const ModalDelete = ({mysqlApiDelete, queryKey}) => {
   const { dispatch } = React.useContext(StoreContext);
+  const queryClient = useQueryClient();
+
+
+  const mutation = useMutation({
+    mutationFn: (values) => queryData(mysqlApiDelete, "delete", values),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [queryKey] });
+      handleClose();
+      if (!data.success) {
+        dispatch(setValidate(true));
+        dispatch(setMessage(data.error));
+      } else {
+        dispatch(setIsDelete(false));
+        dispatch(setSuccess(true));
+        dispatch(setMessage("Record Successfully Deleted"));
+      }
+    },
+  });
+
+
+  const handleYes = async () => {
+    mutation.mutate({
+      item: 'xxx',
+    });
+  };
+
+
+
+
 
   const handleClose = () => {
     dispatch(setIsDelete(false));
@@ -28,12 +57,12 @@ const ModalDelete = () => {
           </div>
           <div className="modal-body p-2 py-4">
             <p className="mb-0 text-center">
-              Are sure you want to remove this movie?
+              Are sure you want to remove this recipe?
             </p>
 
             <div className=" flex justify-end gap-3 mt-5">
-              <button className="btn btn-alert">
-                <SpinnerButton />
+              <button className="btn btn-alert" onClick={handleYes}>
+                {mutation.isPending && <SpinnerButton />}
                 Delete
               </button>
               <button className="btn btn-cancel" onClick={handleClose}>

@@ -5,12 +5,16 @@ import { ImagePlusIcon, X } from "lucide-react";
 import { setIsAdd } from "@/components/store/StoreAction";
 import ModalWrapper from "../partials/modals/ModalWrapper";
 import SpinnerButton from "../partials/spinners/SpinnerButton";
-import { InputPhotoUpload, InputSelect, InputText } from "@/components/helpers/FormInputs";
-import { imgPath } from "@/components/helpers/Functions-General";
+import {
+  InputPhotoUpload,
+  InputSelect,
+  InputText,
+} from "@/components/helpers/FormInputs";
+import { imgPath } from "@/components/helpers/functions-general";
 import * as Yup from "Yup";
 import useUploadPhoto from "@/components/custom-hook/useUploadPhoto";
 
-const ModalAddAdverstisement = ({itemEdit}) => {
+const ModalAddAdverstisement = ({ itemEdit }) => {
   const { dispatch, store } = React.useContext(StoreContext);
   const { uploadPhoto, handleChangePhoto, photo } = useUploadPhoto("");
 
@@ -20,16 +24,14 @@ const ModalAddAdverstisement = ({itemEdit}) => {
 
   const initVal = {
     clothe_title: itemEdit ? itemEdit.clothe_title : "",
-    clothe_price:itemEdit ? itemEdit.clothe_price : "",
+    clothe_price: itemEdit ? itemEdit.clothe_price : "",
     clothe_category: itemEdit ? itemEdit.clothe_category : "",
     clothe_size: itemEdit ? itemEdit.clothe_size : "",
-    
   };
   const yupSchema = Yup.object({
     clothe_title: Yup.string().required("Required"),
     clothe_price: Yup.string().required("Required"),
     clothe_category: Yup.string().required("Required"),
-    
   });
 
   return (
@@ -55,10 +57,6 @@ const ModalAddAdverstisement = ({itemEdit}) => {
                 <Form>
                   <div className="modal-form h-full max-h-[calc(100vh-56px)] grid grid-rows-[1fr_auto]">
                     <div className="form-wrapper p-4 max-h-[80vh] h-full overflow-y-auto custom-scroll">
-
-                        
-
-                      
                       <div className="input-wrap relative  group input-photo-wrap h-[150px] ">
                         <label htmlFor="">Photo</label>
                         {itemEdit === null ? (
@@ -72,7 +70,6 @@ const ModalAddAdverstisement = ({itemEdit}) => {
                               Upload Photo
                             </small>
                           </div>
-
                         ) : (
                           <img
                             src={
@@ -96,8 +93,8 @@ const ModalAddAdverstisement = ({itemEdit}) => {
                           }`}
                         />
                       </div>
-                     
-                   <div className="input-wrap mt-8">
+
+                      <div className="input-wrap mt-8">
                         <InputText
                           label="Title"
                           type="text"
