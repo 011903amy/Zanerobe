@@ -1,10 +1,24 @@
 import React from 'react'
 
-const Pills = ({isActive}) => {
-
-  return (
-    <span className={`text-[8px] p-[1px] px-2 py-0.5 rounded-full w-[50px] border  text-center bg-opacity-20 ${isActive ? "border-success bg-success text-success": "bg-gray-300 border-gray-600 text-dark"}`}>{isActive ? "Active": "Inactive"}</span>
-  )
+const Pills = ({text}) => {
+return (
+  <span
+    className={
+      text === "Active"
+        ? "bg-green-300 text-green-800 text-xs font-medium mr-2 px-2 py-0.3 rounded-full"
+        : text === "Completed" || text === "Open"
+        ? "bg-blue-100 text-primary text-xs font-medium mr-2 px-2 py-0.3 rounded-full"
+        : text === "On-going"
+        ? "bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2 py-0.3 rounded-full"
+        : text === "Locked"
+        ? "bg-red-100 text-red-800 text-xs font-medium mr-2 px-2 py-0.3 rounded-full"
+        : "bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2 py-0.3 rounded-full"
+    }
+  >
+    {text}
+  </span>
+)
+  
 }
 
 export default Pills

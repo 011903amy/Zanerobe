@@ -5,8 +5,8 @@ $conn = checkDbConnection();
 // make instance of classes
 $category = new Category($conn);
 // get $_GET data
-$error = [];
-$returnData = [];
+// $error = [];
+// $returnData = [];
 if (array_key_exists("categoryid", $_GET)) {
   // check data
   checkPayload($data);

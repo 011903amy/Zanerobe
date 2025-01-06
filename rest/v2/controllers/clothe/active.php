@@ -14,18 +14,22 @@ $conn = null;
 $conn = checkDbConnection();
 // make instance of classes
 $clothe = new Clothe($conn);
+$response = new Response();
 // get payload
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
 // get $_GET data
 // validate api key
+$error = [];
+$returnData = [];
 if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
-  //checkApiKey();
+  checkApiKey();
   if (array_key_exists("clotheid", $_GET)) {
     // check data
     checkPayload($data);
     $clothe->clothe_aid = $_GET['clotheid'];
     $clothe->clothe_is_active = trim($data["isActive"]);
+    
     checkId($clothe->clothe_aid);
     $query = checkActive($clothe);
     http_response_code(200);

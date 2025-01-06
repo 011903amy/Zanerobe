@@ -29,8 +29,8 @@ const Clothes = () => {
             <Header title="Clothes" subtitle='Zanerobe Clothe Management' />
             <div className="p-8">
               <div className="flex justify-between items-center">
-                <SearchBar />
-                <button className="btn btn-add" onClick={handleAdd}>
+                <div></div>
+                <button className="btn btn-add mb-5" onClick={handleAdd}>
                   <Plus size={16} />
                   Add New
                 </button>
@@ -43,7 +43,7 @@ const Clothes = () => {
           </main>
         </div>
       </section>
-      {store.isAdd && <ModalAddClothes itemEdit={itemEdit} />}
+      {store.isAdd && <ModalAddClothes itemEdit={itemEdit} setIsAdd={setIsAdd} setItemEdit={setItemEdit} />}
       {store.isValidate && <ModalValidation />}
       {store.error && <ModalError />}
       {store.isSuccess && <ToastSuccess />}

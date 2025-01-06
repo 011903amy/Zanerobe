@@ -2,97 +2,172 @@
 
 class Clothe
 {
-    public $clothe_aid;
-    public $clothe_is_active;
-    public $clothe_image;
-    public $clothe_image1;
-    public $clothe_title;
-    public $clothe_price;
-    public $clothe_category_id;
-    public $clothe_size;
-    public $clothe_datetime;
-    public $clothe_created;
+  public $clothe_aid;
+  public $clothe_is_active;
+  public $clothe_image;
+  public $clothe_image1;
+  public $clothe_title;
+  public $clothe_price;
+  public $clothe_category_id;
+  public $clothe_size;
+  public $clothe_datetime;
+  public $clothe_created;
 
-    public $category_aid;
-    public $category_is_active;
-    public $category_image;
-    public $category_title;
-    public $category_datetime;
-    public $category_created;
+  public $category_aid;
+  public $category_is_active;
+  public $category_image;
+  public $category_title;
+  public $category_datetime;
+  public $category_created;
 
-    public $connection;
-    public $lastInsertedId;
-    public $clothe_start;
-    public $clothe_total;
-    public $clothe_search;
+  public $connection;
+  public $lastInsertedId;
+  public $clothe_start;
+  public $clothe_total;
+  public $clothe_search;
 
-    public $tblclothe;
-    public $tblcategory;
+  public $tblclothe;
+  public $tblcategory;
 
-    public function __construct($db)
-    {
-        $this->connection = $db;
-        $this->tblclothe = "clothe";
-        $this->tblcategory = "category";
-        
-    }
-
-    public function readAll()
-      {
-        try {
-          $sql = "select * ";
-          $sql .= "from ";
-          $sql .= "{$this->tblcategory} as category, ";
-          $sql .= "{$this->tblclothe} as clothe ";
-          $sql .= "where category.category_aid = clothe.clothe_category_id ";
-          $sql .= "order by clothe.clothe_is_active desc, ";
-          $sql .= "clothe.clothe_title asc ";
-          $query = $this->connection->query($sql);
-        } catch (PDOException $ex) {
-          $query = false;
-        }
-        return $query;
-      }
-
-      public function readLimit()
-      {
-        try {
-          $sql = "select * ";
-          $sql .= "from ";
-          $sql .= "{$this->tblcategory} as category, ";
-          $sql .= "{$this->tblclothe} as clothe ";
-          $sql .= "where category.category_aid = clothe.clothe_category_id ";
-          $sql .= "order by clothe.clothe_is_active desc, ";
-          $sql .= "clothe.clothe_title asc ";
-          $sql .= "limit :start, ";
-          $sql .= ":total ";
-          $query = $this->connection->prepare($sql);
-          $query->execute([
-              "start" => $this->clothe_start - 1,
-              "total" => $this->clothe_total,
-          ]);
-      } catch (PDOException $ex) {
-          $query = false;
-      }
-      return $query;
+  public function __construct($db)
+  {
+    $this->connection = $db;
+    $this->tblclothe = "clothe";
+    $this->tblcategory = "category";
   }
-      public function readById()
-      {
-          try {
-              $sql = "select * from {$this->tblclothe} ";
-              $sql .= "where clothe_aid = :clothe_aid ";
-              $sql .= "order by clothe_is_active desc ";
-              $query = $this->connection->prepare($sql);
-              $query->execute([
-                  "clothe_aid" => $this->clothe_aid,
-              ]);
-          } catch (PDOException $ex) {
-              $query = false;
-          }
-          return $query;
-      }
 
-      public function create()
+  public function readAll()
+  {
+    try {
+      $sql = "select * ";
+      $sql .= "from ";
+      $sql .= "{$this->tblcategory} as category, ";
+      $sql .= "{$this->tblclothe} as clothe ";
+      $sql .= "where category.category_aid = clothe.clothe_category_id ";
+      $sql .= "order by clothe.clothe_is_active desc, ";
+      $sql .= "clothe.clothe_title asc ";
+      $query = $this->connection->query($sql);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+  public function readAllByCategory()
+  {
+    try {
+      $sql = "select * ";
+      $sql .= "from ";
+      $sql .= "{$this->tblcategory} as category, ";
+      $sql .= "{$this->tblclothe} as clothe ";
+      $sql .= "where category.category_aid = clothe.clothe_category_id ";
+      $sql .= "order by clothe.clothe_is_active desc, ";
+      $sql .= "clothe.clothe_title asc ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "clothe_category_id" => $this->clothe_category_id,
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+
+  public function readLimit()
+  {
+    try {
+      $sql = "select * ";
+      $sql .= "from ";
+      $sql .= "{$this->tblcategory} as category, ";
+      $sql .= "{$this->tblclothe} as clothe ";
+      $sql .= "where category.category_aid = clothe.clothe_category_id ";
+      $sql .= "order by clothe.clothe_is_active desc, ";
+      $sql .= "clothe.clothe_title asc ";
+      $sql .= "limit :start, ";
+      $sql .= ":total ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "start" => $this->clothe_start - 1,
+        "total" => $this->clothe_total,
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+  public function search()
+  {
+    try {
+      $sql = "select * ";
+      $sql .= "from ";
+      $sql .= "{$this->tblcategory} as category, ";
+      $sql .= "{$this->tblclothe} as clothe ";
+      $sql .= "where clothe.clothe_title like :clothe_title ";
+      $sql .= "and category.category_aid = clothe.clothe_category_id ";
+      $sql .= "order by clothe.clothe_is_active desc ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "clothe_title" => "%{$this->clothe_search}%",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+  public function filterActive()
+  {
+    try {
+      $sql = "select * ";
+      $sql .= "from ";
+      $sql .= "{$this->tblcategory} as category, ";
+      $sql .= "{$this->tblclothe} as clothe ";
+      $sql .= "where clothe.clothe_title like :clothe_title ";
+      $sql .= "and category.category_aid = clothe.clothe_category_id ";
+      $sql .= "order by clothe.clothe_is_active desc, ";
+      $sql .= "clothe_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "clothe_is_active" => $this->clothe_is_active,
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+  public function filterActiveSearch()
+  {
+    try {
+      $sql = "select * from {$this->tblclothe} ";
+      $sql .= "where clothe_is_active = :clothe_is_active ";
+      $sql .= "and clothe_title like :clothe_title ";
+      $sql .= "order by clothe_is_active desc, ";
+      $sql .= "clothe_title ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "clothe_is_active" => $this->clothe_is_active,
+        "clothe_title" => "%{$this->clothe_search}%",
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+  public function readById()
+  {
+    try {
+      $sql = "select * from {$this->tblclothe} ";
+      $sql .= "where clothe_aid = :clothe_aid ";
+      $sql .= "order by clothe_is_active desc ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "clothe_aid" => $this->clothe_aid,
+      ]);
+    } catch (PDOException $ex) {
+      $query = false;
+    }
+    return $query;
+  }
+
+  public function create()
   {
     try {
       $sql = "insert into {$this->tblclothe} ";
@@ -194,24 +269,21 @@ class Clothe
   }
 
   public function active()
-    {
+  {
     try {
-    $sql = "update {$this->tblclothe} set ";
-    $sql .= "clothe_is_active = :clothe_is_active, ";
-    $sql .= "clothe_datetime = :clothe_datetime ";
-    $sql .= "where clothe_aid  = :clothe_aid ";
-    $query = $this->connection->prepare($sql);
-    $query->execute([
-    "clothe_is_active" => $this->clothe_is_active,
-    "clothe_datetime" => $this->clothe_datetime,
-    "clothe_aid" => $this->clothe_aid,
-    ]);
+      $sql = "update {$this->tblclothe} set ";
+      $sql .= "clothe_is_active = :clothe_is_active, ";
+      $sql .= "clothe_datetime = :clothe_datetime ";
+      $sql .= "where clothe_aid  = :clothe_aid ";
+      $query = $this->connection->prepare($sql);
+      $query->execute([
+        "clothe_is_active" => $this->clothe_is_active,
+        "clothe_datetime" => $this->clothe_datetime,
+        "clothe_aid" => $this->clothe_aid,
+      ]);
     } catch (PDOException $ex) {
-    $query = false;
+      $query = false;
     }
     return $query;
   }
-
-
 }
-

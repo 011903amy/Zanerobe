@@ -26,8 +26,8 @@ if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
         //check to see if task id in query string is not empty and is number, if not return json error
         checkLimitId($clothe->clothe_start, $clothe->clothe_total);
 
-        $query = checkReadLimit($clothe);
         $total_result = checkReadAll($clothe);
+        $query = checkReadLimit($clothe);
         http_response_code(200);
         checkReadQuery(
             $query,

@@ -32,8 +32,8 @@ const Category = () => {
             <Header title="Category" subtitle='Zanerobe Category Management' />
             <div className="p-8">
               <div className="flex justify-between items-center">
-                <SearchBar />
-                <button className="btn btn-add" onClick={handleAdd}>
+                <div></div>
+                <button className="btn btn-add mb-5" onClick={handleAdd}>
                   <Plus size={16} />
                   Add New
                 </button>
@@ -46,8 +46,8 @@ const Category = () => {
           </main>
         </div>
       </section>
-      {store.isAdd && <ModalAddCategory itemEdit={itemEdit} />}
-      {store.isValidate && <ModalValidation />}
+      {store.isAdd && <ModalAddCategory itemEdit={itemEdit} setIsAdd={setIsAdd} setItemEdit={setItemEdit}/>}
+      {store.isValidate && <ModalValidation />} 
       {store.error && <ModalError />}
       {store.isSuccess && <ToastSuccess />}
     </>
